@@ -1,3 +1,5 @@
+/* Se modifico la clase Node para que sus atributos sean protegidos*/
+
 package bstreelinklistinterfgeneric;
 
 public class NodeBST<E> {
@@ -21,7 +23,4 @@ public class NodeBST<E> {
     public NodeBST<E> getLeft(){
         return left;
     }
-
-    
-
 }
