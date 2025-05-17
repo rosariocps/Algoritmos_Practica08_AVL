@@ -61,6 +61,13 @@ public class TestAVL {
             System.out.println("Después de eliminar 30:");
             System.out.println(arbol2.drawBST());
 
+            System.out.println("Antes de eliminar 50:");
+            System.out.println(arbol2.drawBST());
+
+            arbol2.delete(50);
+            System.out.println("Después de eliminar 50:");
+            System.out.println(arbol2.drawBST());
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
