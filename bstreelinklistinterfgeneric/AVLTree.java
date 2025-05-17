@@ -1,6 +1,4 @@
-package avltree;
-import bstreelinklistinterfgeneric.LinkedBST;
-import bstreelinklistinterfgeneric.NodeBST;
+package bstreelinklistinterfgeneric;
 
 public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
     protected class NodeAVL extends NodeBST<E>{
@@ -19,14 +17,5 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
     }
 
     private boolean height;
-
-    private NodeAVL rotateSR(NodeAVL node){
-        NodeAVL p = (NodeAVL) node.left;
-        node.left = p.right;
-        p.right = node;
-        return p;
-
-    }
-
 
 }
