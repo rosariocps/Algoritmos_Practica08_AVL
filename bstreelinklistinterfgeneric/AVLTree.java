@@ -1,6 +1,8 @@
 package bstreelinklistinterfgeneric;
 
+import exceptions.ExceptionIsEmpty;
 import exceptions.ItemDuplicated;
+
 
 public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
     protected class NodeAVL extends NodeBST<E>{
@@ -158,5 +160,126 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
         node.left = p.right;
         p.right = node;
         return p;
+    }
+
+    // METODO PUBLICO QUE BORRA EL NODO "X" DE UN ARBOL
+    @Override
+    public void delete(E x) throws ExceptionIsEmpty {
+        height = false;
+        root = delete(x, (NodeAVL) root);
+    }
+    
+    // METODO PRIVADO RECURSIVO QUE BUSCA Y ELIMINA EL DATO "X" Y APLICA REBALANCEO SI ES NECESARIO
+    private NodeAVL delete(E x, NodeAVL node) throws ExceptionIsEmpty {
+        if (node == null) {
+            throw new ExceptionIsEmpty("El dato no se encuentra en el árbol.");
+        }
+
+        NodeAVL nodoCurrent = node;
+        int comp = x.compareTo(node.data);
+
+        if (comp < 0) {
+            nodoCurrent.left = delete(x, (NodeAVL) node.left);
+            if (height) {
+                nodoCurrent = adjustLeft(nodoCurrent);
+            }
+        } 
+        else if (comp > 0) {
+            nodoCurrent.right = delete(x, (NodeAVL) node.right);
+            if (height) {
+                nodoCurrent = adjustRight(nodoCurrent);
+            }
+        } 
+        else {
+            if (node.left == null) {
+                nodoCurrent = (NodeAVL) node.right;
+                height = true;
+            } 
+            else if (node.right == null) {
+                nodoCurrent = (NodeAVL) node.left;
+                height = true;
+            } 
+            else {
+                NodeAVL sucesor = buscarMin((NodeAVL) node.right);
+                node.data = sucesor.data;
+                node.right = delete(sucesor.data, (NodeAVL) node.right);
+                if (height) {
+                    nodoCurrent = adjustRight(node);
+                }
+            }
+        }
+        return nodoCurrent;
+    }
+    
+    // METODO PRIVADO QUE BUSCA EL VALOR MINIMO EN UN SUBARBOL -> SUCESOR
+    private NodeAVL buscarMin(NodeAVL node) {
+        while (node.left != null) {
+            node = (NodeAVL) node.left;
+        }
+        return node;
+    }
+
+    // METODO QUE AJUSTA EL FACTOR DE BALANCE AL ELIMINAR EN SUBARBOL IZQUIERDO
+    private NodeAVL adjustLeft(NodeAVL node){
+        switch(node.bf){
+            case -1:
+                node.bf = 0;
+                break;
+            case 0:
+                node.bf = 1;
+                height = false;
+                break;
+            case 1:
+                NodeAVL right = (NodeAVL) node.right;
+                if(right.bf <= 0){
+                    node = rotateSR(node);
+                    if(right.bf == 0){
+                        node.bf = -1;
+                        ((NodeAVL) node.left).bf = 1;
+                        height = false;
+                    }
+                    else{
+                        node.bf = 0;
+                        ((NodeAVL) node.right).bf = 0;
+                    }
+                }
+                else{
+                    node = balanceToRight(node);
+                }
+                break;
+        }
+        return node;
+    }
+
+    // METODO QUE AJUSTA EL FACTOR DE BALANCE AL ELIMINAR EN SUBARBOL DERECHO
+    private NodeAVL adjustRight(NodeAVL node){
+        switch(node.bf){
+            case 1:
+                node.bf = 0;
+                break;
+            case 0:
+                node.bf = -1;
+                height = false;
+                break;
+            case -1:
+                NodeAVL left = (NodeAVL) node.left;
+                if(left.bf <= 0){
+                    node = rotateSR(node);
+                    if(left.bf == 0){
+                        node.bf = 1;
+                        ((NodeAVL) node.right).bf = -1;
+                        height = false;
+                    }
+                    else{
+                        node.bf = 0;
+                        ((NodeAVL) node.right).bf = 0;
+                    }
+                }
+                else{
+                    node = balanceToRight(node);
+                }
+                break;
+        }
+        return node;
     }
 }
