@@ -282,4 +282,33 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
         }
         return node;
     }
+    //Metodo para hallar la altura
+    private int height(NodeAVL node) {
+        if (node == null)
+            return 0;
+        int leftHeight = height((NodeAVL) node.left);
+        int rightHeight = height((NodeAVL) node.right);
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
+
+    // Imprimir nodos de un nivel dado (recursivo)
+    private void printLevel(NodeAVL node, int level) {
+        if (node == null)
+            return;
+        if (level == 0) {
+            System.out.print(node.data + " ");
+        } else {
+            printLevel((NodeAVL) node.left, level - 1);
+            printLevel((NodeAVL) node.right, level - 1);
+        }
+    }
+
+    // Método público que realiza el recorrido BFS recursivo
+    public void bfsRecursive() {
+        int h = height((NodeAVL) root);
+        for (int i = 0; i < h; i++) {
+            printLevel((NodeAVL) root, i);
+            System.out.println(); // salto de línea para separar niveles
+        }
+    }
 }

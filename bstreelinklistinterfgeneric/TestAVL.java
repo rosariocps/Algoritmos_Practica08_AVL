@@ -129,5 +129,21 @@ public class TestAVL {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        // AMPLITUD
+        System.out.println("\nAMPLITUD\n");
+        AVLTree<Integer> arbol3 = new AVLTree<>();
+        try {
+            int[] datosarbol3 = {50,20,10,30,90,40};
+            for (int dato : datosarbol3) {
+                arbol3.insert(dato);
+            }
+            System.out.println("\nDibujo del arbol:");
+            System.out.println(arbol3.drawBST());
+            arbol3.bfsRecursive();
+            System.out.println();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
