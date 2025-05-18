@@ -193,5 +193,36 @@ public class TestAVL {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        //Insertar y Eliminar Nodos en un Árbol AVL con Casos de Rotación
+        AVLTree<Integer> arbolejer6 = new AVLTree<>();
+        System.out.println("\n Ejercicio 6");
+        try {
+            System.out.println("Insertando 30");
+            arbolejer6.insert(30);
+            arbolejer6.bfsRecursive();
+
+            System.out.println("Insertando 20");
+            arbolejer6.insert(20);
+            arbolejer6.bfsRecursive();
+
+            System.out.println("Insertando 10 (provoca rotación simple a la derecha)");
+            arbolejer6.insert(10);
+            arbolejer6.bfsRecursive();
+
+            System.out.println("Insertando 25");
+            arbolejer6.insert(25);
+            arbolejer6.bfsRecursive();
+
+            System.out.println("Insertando 22 (provoca rotación doble izquierda-derecha)");
+            arbolejer6.insert(22);
+            arbolejer6.bfsRecursive();
+
+            System.out.println("Eliminando 30 (posible reequilibrio)");
+            arbolejer6.delete(30);
+            arbolejer6.bfsRecursive();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
