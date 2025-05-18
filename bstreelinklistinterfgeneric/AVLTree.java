@@ -3,83 +3,93 @@ package bstreelinklistinterfgeneric;
 import exceptions.ExceptionIsEmpty;
 import exceptions.ItemDuplicated;
 
-
+//clase generica
 public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
+    //clase interna que extiende de NodeBST y añase un campo bf (factor de equilibrio)
     protected class NodeAVL extends NodeBST<E>{
-        protected int bf; // balance factor = factor de equilibrio
-
+        // factor de equilibrio -> bf = altura del sub dere - altura de sub izq
+        protected int bf;
+        // 0 = equilibrado
+        // -1 = subarbol izquierdo más alto
+        //  1 = subarbol derecho más alto
+        // -2 = desequilibrio hacia el subarbol izquierdo (requiere rotacion)
+        //  2 = desequilibrio hacia el subarbol derecho (requiere rotacion)         
+        
+        //constructor
         public NodeAVL(E data){
-            super(data);
-            this.bf = 0;
+            super(data); //llama al contructor padre (NodeBST<E>) pasando data
+            this.bf = 0; //incializamos el factor de balance en 0
 
         }
-        
+        //metodo para imprimir el nodo 
         @Override
         public String toString(){
             return "Dato: " + data + ", Factor de equilibrio: " + bf;
         }
     }
-
-    private boolean height;
-
+    private boolean height; //bandera para saber si la altura deñ subarbol ha cambiado
+    //metodo publico para insertar un nodo al arbol
     @Override
-    public void insert(E x) throws ItemDuplicated{
-        height = false;
-        root = insert(x, (NodeAVL) root);
+    public void insert(E x) throws ItemDuplicated{ //lanza una excepcion personalizada en caso el dato este duplicado
+        height = false; //inicializamos height en false xq aun no ha cambiado nada
+        root = insert(x, (NodeAVL) root); //root almacenara el resultado del metodo recursivo insert , con el dato a insertar (x) y la raiz convertido a tipo NodeAVL
     }
-
+    //metodo protegido (osea que se puede usar dentro de la clase y subclases y clases del mismo paquete)
+    //recibe el dato x a insertar, y el nodo actual (raiz)
     protected NodeAVL insert(E x, NodeAVL node) throws ItemDuplicated {
-        NodeAVL nodoCurrent = node;
-
+        NodeAVL nodoCurrent = node; //creamos una variable nodoCurrent que apunta al mismo nodo recibido
+        //caso base : si el nodo está vacio, llegamos a la posicion donde debe insertarse el nuevo valor
         if (node == null) {
-            height = true;
-            nodoCurrent = new NodeAVL(x);
+            height = true; //ponemos en true xq la altura del arbol ha aumentado
+            nodoCurrent = new NodeAVL(x); //creamos un nuevo nodo con el valor x recibido
         }
-        else{
-            int comp = x.compareTo(node.data);
-            if (comp == 0)
+        else{ //si el nodo no es nulo 
+            int comp = x.compareTo(node.data); //comparamos el valor x con el dato de nodo actual
+            //compareTo nos devuelve: 0 si son iguales, < 0 si x es menor, > 0 si x es mayor
+            if (comp == 0) //si son iguales emtonces el valor ya existe, entonces lanzamos la excepcion 
                 throw new ItemDuplicated(x + " ya se encuentra en el árbol...");
-            if (comp < 0) { // insertar a la izquierda
-                nodoCurrent.left = insert(x, (NodeAVL) node.left);
-                if (height) {
-                    switch (nodoCurrent.bf) {
-                        case 1:
-                            nodoCurrent.bf = 0;
-                            height = false;
+            if (comp < 0) { // si x es menor
+                nodoCurrent.left = insert(x, (NodeAVL) node.left); //insertamos recursivamente a la izquierda
+                if (height) { //despues de insertar, si el subarbol izq crecio (osea height=true), hay que balancear
+                    switch (nodoCurrent.bf) {//revisamos el balance del nodo actual 
+                        case 1: //si antes tenia el subar der mas alto (bf = 1)
+                            nodoCurrent.bf = 0; //ahora el subar izq crecio -> se equilibra (bf=0)
+                            height = false; //ya no aumenta mas la altura asi que height=false
                             break;
-                        case 0:
-                            nodoCurrent.bf = -1;
-                            height = true;
+                        case 0: //si el nodo estaba equilibrado (bf = 0)
+                            nodoCurrent.bf = -1; //el subar izq crecio -> se desequilibra un poco hacia la izquierda (bf=-1)
+                            height = true; //hubo cambio y aun puede seguir aumentando la altura asi que height=true
                             break;
-                        case -1:
-                            nodoCurrent = balanceToRight(nodoCurrent);
-                            height = false;
+                        case -1://si el nodo ya estaba inclinado a la izquierda (bf = -1)
+                        //y como se inserto otra vez en el subar izq, entonces ahora esta desequilibrado (bf = -2)
+                            nodoCurrent = balanceToRight(nodoCurrent); //llamamos al metodo balanceToRight() para una rotacion derecha y equilibrar
+                            height = false; //despues de rotar el arbol ya no crece en altura, por eso height = false
                             break;
                     }
                 }
             }
-            else{
-                nodoCurrent.right = insert(x, (NodeAVL) node.right);
-                if (height) {
-                    switch (nodoCurrent.bf) {
-                        case -1:
-                            nodoCurrent.bf = 0;
-                            height = false;
+            else{ //si es que comp > 0 , osea el valor x es mayor que el valor del nodo actual
+                nodoCurrent.right = insert(x, (NodeAVL) node.right); //llamamos al metodo recursivo insert para insertamos en el subar der
+                if (height) { //despues de insertar, si el subarbol der crecio (osea height=true), hay que balancear
+                    switch (nodoCurrent.bf) {//revisamos el balance del nodo actual 
+                        case -1: //si antes el subar izq era mas alto (bf = -1)
+                            nodoCurrent.bf = 0; //ahora el subar der crecio -> se equilibra (bf = 0)
+                            height = false; //y no aumenta mas la altura asi que height=false
                             break;
-                        case 0:
-                            nodoCurrent.bf = 1;
-                            height = true;
+                        case 0: //si el nodo estaba equilibrado (bf = 0)
+                            nodoCurrent.bf = 1; //y el subarbol derecho crece -> el nodo se inclina hacia la derecha (bf = 1)
+                            height = true; //hubo cambio y aun puede seguir aumentando la altura asi que height=true
                             break;
-                        case 1:
-                            nodoCurrent = balanceToLeft(nodoCurrent);
-                            height = false;
+                        case 1: //si el nodo ya estaba inclinado a la derecha (bf = 1)
+                        //y como el subar der crecio otra vez, entonces hay desequilibrio (bf = 2)
+                            nodoCurrent = balanceToLeft(nodoCurrent); //llamamos al metodo balanceToLeft() para una rotacion izquierda y equilibrar
+                            height = false; //despues de rotar el arbol ya no crece en altura, por eso height = false
                             break;
                     }
                 }
             }
         }
-        
-        return nodoCurrent;
+        return nodoCurrent; //devuelve el nodo actual
     }
     
     private NodeAVL balanceToLeft(NodeAVL node){
