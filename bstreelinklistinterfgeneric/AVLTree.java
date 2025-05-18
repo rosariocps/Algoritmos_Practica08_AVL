@@ -311,4 +311,23 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
             System.out.println(); // salto de línea para separar niveles
         }
     }
+    
+
+    // Método público para iniciar el recorrido preorden
+    public void preOrderTraversal() {
+        System.out.println("Recorrido en preorden:");
+        preOrderRecursive((NodeAVL) root);
+        System.out.println(); // salto de línea
+    }
+
+
+    // Método privado recursivo
+    private void preOrderRecursive(NodeAVL node) {
+        if (node != null) {
+            System.out.print(node.data + " "); // Visitar nodo
+            preOrderRecursive((NodeAVL) node.left); // Subárbol izquierdo
+            preOrderRecursive((NodeAVL) node.right); // Subárbol derecho
+        }
+    }
+
 }

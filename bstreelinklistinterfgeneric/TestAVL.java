@@ -145,5 +145,53 @@ public class TestAVL {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        // RECORRIDO EN PREORDEN
+        System.out.println("\nRECORRIDO EN PREORDEN");
+
+
+        try {
+            // Árbol 1
+            AVLTree<Integer> arbolPreOrden1 = new AVLTree<>();
+            int[] datospreOrden1 = {40, 20, 10, 30, 60, 50, 70};
+            for (int datopre1 : datospreOrden1) {
+                arbolPreOrden1.insert(datopre1);
+            }
+            System.out.println("Árbol 1:");
+            System.out.println(arbolPreOrden1.drawBST());
+            System.out.print("Preorden: ");
+            arbolPreOrden1.preOrderTraversal();
+
+
+
+
+            // Árbol 2
+            AVLTree<Integer> arbolPreOrden2 = new AVLTree<>();
+            int[] datospreOrden2 = {30, 10, 5, 40, 35, 50};
+            for (int datopre2 : datospreOrden2) {
+                arbolPreOrden2.insert(datopre2);
+            }
+            System.out.println("\nÁrbol 2:");
+            System.out.println(arbolPreOrden2.drawBST());
+            System.out.print("Preorden: ");
+            arbolPreOrden2.preOrderTraversal();
+
+
+
+
+            // Árbol 3
+            AVLTree<Integer> arbolPreOrden3 = new AVLTree<>();
+            int[] datospreOrden3 = {15, 5, 3, 7, 20, 25};
+            for (int datopre3 : datospreOrden3) {
+                arbolPreOrden3.insert(datopre3);
+            }
+            System.out.println("\nÁrbol 3:");
+            System.out.println(arbolPreOrden3.drawBST());
+            System.out.print("Preorden: ");
+            arbolPreOrden3.preOrderTraversal();
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
