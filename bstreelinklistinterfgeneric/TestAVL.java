@@ -39,6 +39,64 @@ public class TestAVL {
             System.out.println(e.getMessage());
         }
 
+        // **************** COMPARACION BST VS AVL ****************
+        try {
+            System.out.println("\n\n**** COMPARACIÓN ENTRE BST Y AVL ****");
+
+            LinkedBST<Integer> bst = new LinkedBST<>();
+            AVLTree<Integer> avl = new AVLTree<>();
+
+            // Caso 1: Insertar en orden ascendente (degenera BST)
+            bst.insert(1);
+            bst.insert(2);
+            bst.insert(3);
+            bst.insert(4);
+            bst.insert(5);
+
+            avl.insert(1);
+            avl.insert(2);
+            avl.insert(3);
+            avl.insert(4);
+            avl.insert(5);
+
+            System.out.println("Caso 1: Inserción en orden ascendente");
+            System.out.println("Altura BST (subárbol raíz 1): " + bst.height(1));
+            System.out.println("Altura AVL (subárbol raíz 1): " + avl.height(1));
+            System.out.println("Buscar 3 en BST: " + bst.search(3));
+            System.out.println("Buscar 3 en AVL: " + avl.search(3));
+
+            System.out.println("\nDibujo BST Caso 1:");
+            System.out.println(bst.drawBST());
+
+            System.out.println("Dibujo AVL Caso 1:");
+            System.out.println(avl.drawBST());
+
+            // Caso 2: Insertar en orden aleatorio
+            LinkedBST<Integer> bst2 = new LinkedBST<>();
+            AVLTree<Integer> avl2 = new AVLTree<>();
+
+            int[] datosCaso2 = {4, 1, 7, 3, 5, 2, 6};
+            for (int dato : datosCaso2) {
+                bst2.insert(dato);
+                avl2.insert(dato);
+            }
+
+            System.out.println("\nCaso 2: Inserción en orden aleatorio");
+            System.out.println("Altura BST (subárbol raíz 3): " + bst2.height(3));
+            System.out.println("Altura AVL (subárbol raíz 3): " + avl2.height(3));
+            System.out.println("Buscar 5 en BST: " + bst2.search(5));
+            System.out.println("Buscar 5 en AVL: " + avl2.search(5));
+
+            System.out.println("\nDibujo BST Caso 2:");
+            System.out.println(bst2.drawBST());
+
+            System.out.println("Dibujo AVL Caso 2:");
+            System.out.println(avl2.drawBST());
+
+        } catch (Exception e) {
+            System.out.println("Error en comparación BST vs AVL: " + e.getMessage());
+        }
+
         System.out.println("\nEliminaciones con rotaciones\n");
 
         AVLTree<Integer> arbol2 = new AVLTree<>();
