@@ -400,25 +400,30 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
         int h = height((NodeAVL) root);
         //recorremos cada nivel del arbol desde 0 hasta altura - 1
         for (int i = 0; i < h; i++) {
-            //imprimimos todos los nodos que estan en el nivel 'i'
+            // Imprimimos todos los nodos que están en el nivel 'i'
             printLevel((NodeAVL) root, i);
-            //imprimimos un salto de linea para separar visualmente los niveles
+
+            // Imprimimos un salto de línea para separar visualmente los niveles
             System.out.println();
         }
     }
+    
 
-    //metodo publico para iniciar el recorrido preorden
+    // Método público para iniciar el recorrido preorden
     public void preOrderTraversal() {
         System.out.println("Recorrido en preorden:");
-        preOrderRecursive((NodeAVL) root); // Llama al metodo recursivo comenzando desde la raiz
-        System.out.println(); //salto de linea al final del recorrido
+        preOrderRecursive((NodeAVL) root);
+        System.out.println(); // salto de línea
     }
-    //metodo privado recursivo recorrido preorden
+
+
+    // Método privado recursivo
     private void preOrderRecursive(NodeAVL node) {
-        if (node != null) { //si el nodo no esta vacio (caso base de la recursion)
-            System.out.print(node.data + " "); //primero se visita (imprime) el nodo actual
-            preOrderRecursive((NodeAVL) node.left); //luego se visita recursivamente el subarbol izquierdo
-            preOrderRecursive((NodeAVL) node.right); //despues se visita recursivamente el subarbol derecho
+        if (node != null) {
+            System.out.print(node.data + " "); // Visitar nodo
+            preOrderRecursive((NodeAVL) node.left); // Subárbol izquierdo
+            preOrderRecursive((NodeAVL) node.right); // Subárbol derecho
         }
     }
+
 }
