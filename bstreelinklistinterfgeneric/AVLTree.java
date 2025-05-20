@@ -221,7 +221,7 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
             } 
             else { //caso 3:el nodo tiene dos hijos
                 NodeAVL sucesor = buscarMin((NodeAVL) node.right); //buscamos el sucesor (minimo del subarbol derecho)
-                node.data = sucesor.data; //reemplazamos el dato del nodo con el del sucesor
+                node.data = sucesor.data; //"swap" reemplazamos el dato del nodo con el del sucesor
                 node.right = delete(sucesor.data, (NodeAVL) node.right); //eliminamos el sucesor en el subárbol derecho
                 if (height) { //si la altura cambio tras eliminar el sucesor
                     nodoCurrent = adjustRight(node); //balanceamos a la derecha
