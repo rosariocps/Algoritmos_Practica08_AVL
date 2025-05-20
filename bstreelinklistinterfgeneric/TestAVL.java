@@ -129,6 +129,7 @@ public class TestAVL {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
         // AMPLITUD
         System.out.println("\nAMPLITUD\n");
         AVLTree<Integer> arbol3 = new AVLTree<>();
@@ -145,6 +146,7 @@ public class TestAVL {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
         // RECORRIDO EN PREORDEN
         System.out.println("\nRECORRIDO EN PREORDEN");
 
@@ -160,10 +162,6 @@ public class TestAVL {
             System.out.println(arbolPreOrden1.drawBST());
             System.out.print("Preorden: ");
             arbolPreOrden1.preOrderTraversal();
-
-
-
-
             // Árbol 2
             AVLTree<Integer> arbolPreOrden2 = new AVLTree<>();
             int[] datospreOrden2 = {30, 10, 5, 40, 35, 50};
@@ -174,10 +172,6 @@ public class TestAVL {
             System.out.println(arbolPreOrden2.drawBST());
             System.out.print("Preorden: ");
             arbolPreOrden2.preOrderTraversal();
-
-
-
-
             // Árbol 3
             AVLTree<Integer> arbolPreOrden3 = new AVLTree<>();
             int[] datospreOrden3 = {15, 5, 3, 7, 20, 25};
@@ -188,8 +182,6 @@ public class TestAVL {
             System.out.println(arbolPreOrden3.drawBST());
             System.out.print("Preorden: ");
             arbolPreOrden3.preOrderTraversal();
-
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
