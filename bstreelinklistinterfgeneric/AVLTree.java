@@ -397,8 +397,7 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
         
         try {
             // Obtenemos la altura del árbol usando el dato almacenado en la raíz.
-            // Se suma +1 para incluir el último nivel, ya que la altura empieza desde 0.
-            h = height(root.data) + 1;
+            h = height(root.data);
         } catch (ItemNotFound e) {
             // Si el nodo raíz está vacío o no se encuentra, mostramos un mensaje de error
             System.out.println("Error al obtener altura del árbol: " + e.getMessage());
@@ -407,7 +406,7 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
         }
 
         // Recorremos desde el nivel 0 hasta el nivel h-1 del árbol
-        for (int i = 0; i < h; i++) {
+        for (int i = 0; i <= h; i++) {
             // Imprimimos todos los nodos que se encuentran en el nivel 'i'
             printLevel((NodeAVL) root, i);
 
