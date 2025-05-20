@@ -38,7 +38,7 @@ public class TestAVL {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
+        // Ejercicio 1
         // **************** COMPARACION BST VS AVL ****************
         try {
             System.out.println("\n\n**** COMPARACIÓN ENTRE BST Y AVL ****");
@@ -82,8 +82,15 @@ public class TestAVL {
             }
 
             System.out.println("\nCaso 2: Inserción en orden aleatorio");
+            
+            // Se compara la altura del subárbol con raíz en 3 para evidenciar que el AVL mantiene una estructura más balanceada.
+            // Aunque ambos árboles insertaron los mismos datos, el AVL realiza rotaciones para reducir su altura,
+            // lo que mejora la eficiencia en operaciones como búsqueda, inserción y eliminación.
             System.out.println("Altura BST (subárbol raíz 3): " + bst2.height(3));
             System.out.println("Altura AVL (subárbol raíz 3): " + avl2.height(3));
+
+            
+            //La busqueda en un AVL es mas eficiente porque es mas equilibrado: se requieren menos pasos para encontrar un nodo.
             System.out.println("Buscar 5 en BST: " + bst2.search(5));
             System.out.println("Buscar 5 en AVL: " + avl2.search(5));
 
@@ -97,6 +104,7 @@ public class TestAVL {
             System.out.println("Error en comparación BST vs AVL: " + e.getMessage());
         }
 
+        // Ejercicio 2
         System.out.println("\nEliminaciones con rotaciones\n");
 
         AVLTree<Integer> arbol2 = new AVLTree<>();
@@ -130,6 +138,7 @@ public class TestAVL {
             System.out.println(e.getMessage());
         }
 
+        // Ejercicio 3 y 4
         // AMPLITUD
         System.out.println("\nAMPLITUD\n");
         AVLTree<Integer> arbol3 = new AVLTree<>();
@@ -149,8 +158,6 @@ public class TestAVL {
 
         // RECORRIDO EN PREORDEN
         System.out.println("\nRECORRIDO EN PREORDEN");
-
-
         try {
             // Árbol 1
             AVLTree<Integer> arbolPreOrden1 = new AVLTree<>();
@@ -161,7 +168,8 @@ public class TestAVL {
             System.out.println("Árbol 1:");
             System.out.println(arbolPreOrden1.drawBST());
             System.out.print("Preorden: ");
-            arbolPreOrden1.preOrderTraversal();
+            System.out.println(arbolPreOrden1.recorridoPreOrden());
+
             // Árbol 2
             AVLTree<Integer> arbolPreOrden2 = new AVLTree<>();
             int[] datospreOrden2 = {30, 10, 5, 40, 35, 50};
@@ -171,7 +179,8 @@ public class TestAVL {
             System.out.println("\nÁrbol 2:");
             System.out.println(arbolPreOrden2.drawBST());
             System.out.print("Preorden: ");
-            arbolPreOrden2.preOrderTraversal();
+            System.out.println(arbolPreOrden2.recorridoPreOrden());
+
             // Árbol 3
             AVLTree<Integer> arbolPreOrden3 = new AVLTree<>();
             int[] datospreOrden3 = {15, 5, 3, 7, 20, 25};
@@ -181,13 +190,16 @@ public class TestAVL {
             System.out.println("\nÁrbol 3:");
             System.out.println(arbolPreOrden3.drawBST());
             System.out.print("Preorden: ");
-            arbolPreOrden3.preOrderTraversal();
+            System.out.println(arbolPreOrden3.recorridoPreOrden());
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+        // Ejercicio 5
         //Insertar y Eliminar Nodos en un Árbol AVL con Casos de Rotación
         AVLTree<Integer> arbolejer6 = new AVLTree<>();
-        System.out.println("\n Ejercicio 6");
+        System.out.println("\nEjercicio 6");
         try {
             System.out.println("Insertando 30");
             arbolejer6.insert(30);
