@@ -1,7 +1,9 @@
 package bstreelinklistinterfgeneric;
 
+import actividad2.QueueLink;
 import exceptions.ExceptionIsEmpty;
 import exceptions.ItemDuplicated;
+import exceptions.ItemNotFound;
 
 //clase generica
 public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
@@ -307,16 +309,71 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
         return node; //devolvemos el nodo actualizado (ya sea con su bf ajustado o con rotaciones aplicadas)
     }
     
-    //metodo para hallar la altura de un nodo en el arbol AVL
-    private int height(NodeAVL node) {
-        if (node == null) //si el nodo es nulo 
-            return 0; //su altura es 0
-        //calculamos la altura del subarbol izquierdo
-        int leftHeight = height((NodeAVL) node.left);
-        //calculamos la altura del subarbol derecho
-        int rightHeight = height((NodeAVL) node.right);
-        //la altura del nodo actual es la mayor entre izquierda y derecha, mas 1 (por el mismo nodo)
-        return Math.max(leftHeight, rightHeight) + 1;
+    public int height(E x) throws ItemNotFound {
+        // Obtenemos el nodo con la data 'x' usando el método getNode adaptado a NodeAVL
+        NodeAVL nodoRaiz = getNode(x);
+        // Si no se encuentra el nodo, retornamos -1 (significa que no existe ese subárbol)
+        if (nodoRaiz == null) {
+            return -1;
+        }
+        // Creamos una cola para hacer recorrido por niveles (BFS)
+        QueueLink<NodeAVL> cola = new QueueLink<>();
+        // Insertamos el nodo raíz del subárbol en la cola
+        cola.enqueue(nodoRaiz);
+        // Inicializamos la altura en -1. Se incrementará por cada nivel visitado.
+        int altura = -1;
+        // Mientras la cola no esté vacía, seguimos recorriendo niveles
+        while (!cola.isEmpty()) {
+            // Obtenemos cuántos nodos hay en el nivel actual
+            int numElementosNivel = cola.numeroDeElementos();
+            // Cada vez que iniciamos un nuevo nivel, aumentamos la altura
+            altura++;
+            // Procesamos todos los nodos del nivel actual
+            for (int i = 0; i < numElementosNivel; i++) {
+                try {
+                    // Quitamos el nodo actual de la cola
+                    NodeAVL nodoActual = cola.dequeue();
+
+                    // Si tiene hijo izquierdo, lo agregamos a la cola
+                    if (nodoActual.left != null) {
+                        cola.enqueue((NodeAVL) nodoActual.left); // Cast a NodeAVL
+                    }
+                    // Si tiene hijo derecho, lo agregamos a la cola
+                    if (nodoActual.right != null) {
+                        cola.enqueue((NodeAVL) nodoActual.right); // Cast a NodeAVL
+                    }
+                } catch (actividad1.ExceptionIsEmpty e) {
+                    // En caso haya error al sacar de la cola, mostramos el mensaje
+                    System.out.println("Error al intentar quitar de la cola: " + e.getMessage());
+                }
+            }
+        }
+
+        // Devolvemos la altura final después del recorrido por niveles
+        return altura;
+    }
+    private NodeAVL getNode(E data) throws ItemNotFound {
+        // Comenzamos desde la raíz del árbol
+        NodeAVL nodo = (NodeAVL) root;
+        // Recorremos el árbol hasta encontrar el nodo con la data buscada
+        while (nodo != null) {
+            // Comparamos la data buscada con la del nodo actual
+            int comp = data.compareTo(nodo.data);
+
+            if (comp == 0) {
+                // Si encontramos el nodo exacto, lo retornamos
+                return nodo;
+            } else if (comp > 0) {
+                // Si la data buscada es mayor, vamos al subárbol derecho
+                nodo = (NodeAVL) nodo.right;
+            } else {
+                // Si la data buscada es menor, vamos al subárbol izquierdo
+                nodo = (NodeAVL) nodo.left;
+            }
+        }
+
+        // Si no se encuentra el nodo, lanzamos excepción personalizada
+        throw new ItemNotFound("El nodo con data " + data + " no existe.");
     }
 
     //imprimir todos los nodos que estan en un nivel especifico del arbol (usando recursion)
@@ -335,18 +392,29 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
     // metodo público que realiza el recorrido BFS (por niveles) de forma recursiva
     //BFS: busqueda en anchura o recorrido por niveles.
     public void bfsRecursive() {
-        //primero, obtenemos la altura total del arbol
-        int h = height((NodeAVL) root);
-        //recorremos cada nivel del arbol desde 0 hasta altura - 1
+        // Declaramos una variable para guardar la altura del árbol
+        int h;
+        
+        try {
+            // Obtenemos la altura del árbol usando el dato almacenado en la raíz.
+            // Se suma +1 para incluir el último nivel, ya que la altura empieza desde 0.
+            h = height(root.data) + 1;
+        } catch (ItemNotFound e) {
+            // Si el nodo raíz está vacío o no se encuentra, mostramos un mensaje de error
+            System.out.println("Error al obtener altura del árbol: " + e.getMessage());
+            // Y salimos del método para evitar errores posteriores
+            return;
+        }
+
+        // Recorremos desde el nivel 0 hasta el nivel h-1 del árbol
         for (int i = 0; i < h; i++) {
-            // Imprimimos todos los nodos que están en el nivel 'i'
+            // Imprimimos todos los nodos que se encuentran en el nivel 'i'
             printLevel((NodeAVL) root, i);
 
-            // Imprimimos un salto de línea para separar visualmente los niveles
+            // Imprimimos un salto de línea después de cada nivel para una mejor visualización
             System.out.println();
         }
     }
-    
 
     // Método público para iniciar el recorrido preorden
     public void preOrderTraversal() {
