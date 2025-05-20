@@ -101,24 +101,8 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
                 node.bf = 0;
                 hijo.bf = 0;
                 node = rotateSL(node);
-                /*     node (bf = 2)
-                            \
-                            hijo (bf = 1)
-                        despues de la rotacion simple izq:
-                            hijo
-                            /   \
-                        node   ...          */
                 break;
             case -1: // si el hijo (subarbol derecho) esta inclinado a la izquierda (bf = -1)
-                /* ejemplo de estructura antes de balancear:
-                        node (bf = 2)
-                            \
-                            hijo (bf = -1)
-                            /
-                        nieto (puede ser -1, 0 o 1)
-                Este es un caso de desequilibrio en zig-zag, que se soluciona con una rotación doble:
-                primero rotación simple derecha sobre el hijo, luego rotación simple izquierda sobre el node
-                */
                 NodeAVL nieto = (NodeAVL) hijo.left; // creamos el nieto, que es el hijo izquierdo del hijo derecho
                 switch (nieto.bf) { // evaluamos el bf del nieto para actualizar correctamente los balances
                     case -1: // el nieto está inclinado hacia la izquierda (bf=-1)
@@ -153,17 +137,6 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
                 node.bf = 0;
                 hijo.bf = 0;
                 node = rotateSR(node);
-                /*
-                    Ejemplo antes:
-                        node (bf = -2)
-                        /
-                    hijo (bf = -1)
-                    despues de rotar a la derecha:
-                            hijo
-                            \
-                            node
-                    Ambos quedan equilibrados
-                */
                 break;
             case 1:  //si el hijo esta inclinado a la derecha (bf = 1)
                 //caso de rotacion doble: primero rotacion simple izquierda sobre el hijo, luego rotacion simple derecha sobre el nodo
@@ -187,18 +160,6 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
                 nieto.bf = 0; // el nieto queda siempre balanceado
                 node.left = rotateSL(hijo); // primera rotacion: rotacion simple izquierda sobre el hijo (sube el nieto)
                 node = rotateSR(node); // segunda rotacion: rotación simple derecha sobre el nodo (sube el nieto)
-                /*
-                    Ejemplo antes:
-                            node (bf = -2)
-                        /
-                    hijo (bf = 1)
-                        \
-                        nieto (bf puede variar)
-                    Despues de rotaciones:
-                            nieto (bf = 0)
-                            /      \
-                        hijo       node
-                */
                 break;
         }
         return node; //retornamos el nodo ya balanceado
@@ -207,21 +168,10 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
     //rotacion simple a la izquierda (rotateSL) para balancear el subárbol derecho (bf > 1)
     private NodeAVL rotateSL(NodeAVL node){
         NodeAVL p = (NodeAVL) node.right;  // p es el hijo derecho del nodo (subarbol que subira)
-        node.right = p.left;               // el hijo izquierdo de p se convierte en hijo derecho del nodo
+        node.right = p.left;               // el hijo izquierdo de p se convierte en hijo derecho del nodo (adopción)
         p.left = node;                     // el nodo pasa a ser hijo izquierdo de p
         return p;                          // p ahora es la nueva raiz del subarbol rotado
     }
-    /*
-    ejemplo antes de rotar (node desbalanceado a la derecha):
-        node
-           \
-            p
-           / 
-    despues de la rotacion simple a la izquierda:
-            p
-           /
-        node
-    */
 
     //rotacion simple a la derecha (rotateSR) para balancear el subarbol izquierdo (bf < -1)
     private NodeAVL rotateSR(NodeAVL node) {
@@ -230,17 +180,6 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
         p.right = node;                     // el nodo pasa a ser hijo derecho de p
         return p;                           // p ahora es la nueva raiz del subarbol rotado
     }
-    /*
-    ejemplo antes de rotar (node desbalanceado a la izquierda):
-            node
-            /
-           p
-            \
-    despues de la rotacion simple a la derecha:
-        p
-         \
-          node
-    */
 
     // METODO PUBLICO QUE BORRA EL NODO "X" DE UN ARBOL
     @Override
