@@ -178,7 +178,7 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
     //rotacion simple a la derecha (rotateSR) para balancear el subarbol izquierdo (bf < -1)
     private NodeAVL rotateSR(NodeAVL node) {
         NodeAVL p = (NodeAVL) node.left;    // p es el hijo izquierdo del nodo (subarbol que subirá)
-        node.left = p.right;                 // el hijo derecho de p se convierte en hijo izquierdo del nodo
+        node.left = p.right;                 // el hijo derecho de p se convierte en hijo izquierdo del nodo (adopción)
         p.right = node;                     // el nodo pasa a ser hijo derecho de p
         return p;                           // p ahora es la nueva raiz del subarbol rotado
     }
@@ -405,7 +405,7 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E>{
             return;
         }
 
-        // Recorremos desde el nivel 0 hasta el nivel h-1 del árbol
+        // Recorremos desde el nivel 0 hasta el nivel h del árbol
         for (int i = 0; i <= h; i++) {
             // Imprimimos todos los nodos que se encuentran en el nivel 'i'
             printLevel((NodeAVL) root, i);
